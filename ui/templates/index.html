@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStorage - File Scanner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .scan-control {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .scan-control input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .scan-control input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-box {
+            background: #f5f7fa;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .status-box.active {
+            display: block;
+        }
+
+        .status-box.scanning {
+            border-left-color: #ffa500;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .status-box h3 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .status-box p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card p {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .files-table-container {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f5f7fa;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #666;
+        }
+
+        tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .file-path {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            word-break: break-all;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📁 SmartStorage</h1>
+            <p>File Scanner & Indexer</p>
+        </div>
+
+        <div class="card">
+            <h2 style="margin-bottom: 20px; color: #333;">Scan Directory</h2>
+            
+            <div class="scan-control">
+                <input 
+                    type="text" 
+                    id="directoryInput" 
+                    placeholder="Enter directory path (e.g., C:\Users\YourName\Documents)"
+                    value="">
+                <button class="btn btn-primary" id="startScanBtn" onclick="startScan()">
+                    Start Scan
+                </button>
+            </div>
+
+            <div class="status-box" id="statusBox">
+                <h3 id="statusTitle">Status</h3>
+                <p id="statusMessage">Ready to scan</p>
+            </div>
+
+            <div class="stats" id="statsContainer" style="display: none;">
+                <div class="stat-card">
+                    <h4>Files Found</h4>
+                    <p id="filesCount">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 style="margin-bottom: 20px; color: #333;">Scanned Files</h2>
+            
+            <div id="filesContent">
+                <div class="empty-state">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <h3>No files scanned yet</h3>
+                    <p>Start a scan to see the file list here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let scanInterval = null;
+
+        // Load files on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadFiles();
+        });
+
+        async function startScan() {
+            const directory = document.getElementById('directoryInput').value.trim();
+            
+            if (!directory) {
+                alert('Please enter a directory path');
+                return;
+            }
+
+            const btn = document.getElementById('startScanBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Scanning...';
+
+            try {
+                const response = await fetch('/api/start-scan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ directory: directory })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showStatus('Scanning...', 'Scan started successfully', true);
+                    document.getElementById('statsContainer').style.display = 'grid';
+                    
+                    // Start polling for status
+                    scanInterval = setInterval(checkScanStatus, 500);
+                } else {
+                    alert(data.message);
+                    btn.disabled = false;
+                    btn.innerHTML = 'Start Scan';
+                }
+            } catch (error) {
+                alert('Error starting scan: ' + error.message);
+                btn.disabled = false;
+                btn.innerHTML = 'Start Scan';
+            }
+        }
+
+        async function checkScanStatus() {
+            try {
+                const response = await fetch('/api/scan-status');
+                const status = await response.json();
+
+                document.getElementById('filesCount').textContent = status.files_found;
+                showStatus('Scanning...', status.progress_message, status.is_scanning);
+
+                if (!status.is_scanning) {
+                    // Scan completed
+                    clearInterval(scanInterval);
+                    scanInterval = null;
+                    
+                    const btn = document.getElementById('startScanBtn');
+                    btn.disabled = false;
+                    btn.innerHTML = 'Start Scan';
+
+                    // Reload files
+                    loadFiles();
+                }
+            } catch (error) {
+                console.error('Error checking scan status:', error);
+            }
+        }
+
+        function showStatus(title, message, isScanning) {
+            const statusBox = document.getElementById('statusBox');
+            statusBox.classList.add('active');
+            
+            if (isScanning) {
+                statusBox.classList.add('scanning');
+            } else {
+                statusBox.classList.remove('scanning');
+            }
+            
+            document.getElementById('statusTitle').textContent = title;
+            document.getElementById('statusMessage').textContent = message;
+        }
+
+        async function loadFiles() {
+            try {
+                const response = await fetch('/api/files');
+                const data = await response.json();
+
+                if (data.success && data.files.length > 0) {
+                    displayFiles(data.files, data.total_files);
+                }
+            } catch (error) {
+                console.error('Error loading files:', error);
+            }
+        }
+
+        function displayFiles(files, totalFiles) {
+            const container = document.getElementById('filesContent');
+            
+            let html = '<div class="files-table-container"><table>';
+            html += '<thead><tr>';
+            html += '<th style="width: 40px;">#</th>';
+            html += '<th>File Name</th>';
+            html += '<th>File Path</th>';
+            html += '<th style="width: 120px;">Size</th>';
+            html += '</tr></thead>';
+            html += '<tbody>';
+
+            files.forEach((file, index) => {
+                html += '<tr>';
+                html += `<td>${index + 1}</td>`;
+                html += `<td><strong>${escapeHtml(file.name)}</strong></td>`;
+                html += `<td class="file-path">${escapeHtml(file.path)}</td>`;
+                html += `<td>${formatSize(file.size)}</td>`;
+                html += '</tr>';
+            });
+
+            html += '</tbody></table></div>';
+            
+            container.innerHTML = html;
+        }
+
+        function formatSize(bytes) {
+            const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+            let size = bytes;
+            let unitIndex = 0;
+            
+            while (size >= 1024 && unitIndex < units.length - 1) {
+                size /= 1024;
+                unitIndex++;
+            }
+            
+            return `${size.toFixed(2)} ${units[unitIndex]}`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
