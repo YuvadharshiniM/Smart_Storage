@@ -1,89 +1,41 @@
 {
-  "total_files": 14,
+  "total_files": 6,
   "files": [
     {
-      "path": "D:\\projects\\certificates\\23ITR181_YUVADHARSHINI.M_ORACLE-APEX.pdf",
-      "size": 884714,
-      "name": "23ITR181_YUVADHARSHINI.M_ORACLE-APEX.pdf",
-      "hash": "bd7268d6f5dfc4a805956f95f673e9a203efef49bdd2d381978b0d0bb9861e9a"
+      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 1(2022 Regulations) - Copy.pdf",
+      "size": 1357899,
+      "name": "ML- Unit 1(2022 Regulations) - Copy.pdf",
+      "hash": "2207dbfa34639317e5d8a96d66078f453a908d08a71d95924a998363957d65f9"
     },
     {
-      "path": "D:\\projects\\certificates\\certificate (1)_merged.pdf",
-      "size": 4328150,
-      "name": "certificate (1)_merged.pdf",
-      "hash": "b7b7f214847edc8333c1ce0b768da133d8216ba64831c3518ea1a440f7ab2f2e"
+      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 1(2022 Regulations).pdf",
+      "size": 1357899,
+      "name": "ML- Unit 1(2022 Regulations).pdf",
+      "hash": "2207dbfa34639317e5d8a96d66078f453a908d08a71d95924a998363957d65f9"
     },
     {
-      "path": "D:\\projects\\certificates\\infosysDBMS.pdf",
-      "size": 122137,
-      "name": "infosysDBMS.pdf",
-      "hash": "a4e2fd04871b8249714e0dea588cb78e98a8d6234dcd0926395654a7b5585242"
+      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 2.pdf",
+      "size": 3754344,
+      "name": "ML- Unit 2.pdf",
+      "hash": "0bff4b38aa10df10541a25be02c743fa88369bcdeead4d27d5f2aeeeca4998ac"
     },
     {
-      "path": "D:\\projects\\certificates\\proof\\Adhaar.pdf",
-      "size": 429715,
-      "name": "Adhaar.pdf",
-      "hash": "f785bda8b24c41497d65c8dd32e3b81fa0d13f6ff96d0292e249458d89dde7ad"
+      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 3.pdf",
+      "size": 9176655,
+      "name": "ML- Unit 3.pdf",
+      "hash": "0b5f3db1df4198d05775ae150461086d764e0a55501a54b22a136b5f09c5f078"
     },
     {
-      "path": "D:\\projects\\certificates\\proof\\EAadhaar_0659635010283020240118121742_27122025111536.pdf",
-      "size": 1412066,
-      "name": "EAadhaar_0659635010283020240118121742_27122025111536.pdf",
-      "hash": "de1aec6dfccc12f11543d3c6b68746cb9eab5e4250735c7baadf1165ce903e71"
+      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 4 (2022 Regulations).pdf",
+      "size": 5404833,
+      "name": "ML- Unit 4 (2022 Regulations).pdf",
+      "hash": "9671fe36444d3247300b134b8031ff4012473c7af972ff8e75a6ceb2698ffe40"
     },
     {
-      "path": "D:\\projects\\certificates\\proof\\PAN.pdf",
-      "size": 295341,
-      "name": "PAN.pdf",
-      "hash": "b83e3201a3e10c89f3d8fc46ec0b10cf89866432fdaee8f8cbc7ed17ada52bc2"
-    },
-    {
-      "path": "D:\\projects\\certificates\\proof\\photo.jpg",
-      "size": 205471,
-      "name": "photo.jpg",
-      "hash": "4a1a06cd9c64cd41910950364cd79c3078f4aa693cf9cc97dde6ba766d838877"
-    },
-    {
-      "path": "D:\\projects\\certificates\\proof\\photo2.jpg",
-      "size": 221421,
-      "name": "photo2.jpg",
-      "hash": "147c8495e93ab186ff67e993a0ff75c9fcec51cd6e8d44e7303a33c947a746ba"
-    },
-    {
-      "path": "D:\\projects\\certificates\\proof\\sign.jpg",
-      "size": 29082,
-      "name": "sign.jpg",
-      "hash": "93f188ece6bfe65df45f7e3170e52480cc32ab5ec368373f56a6f4ea551fa375"
-    },
-    {
-      "path": "D:\\projects\\certificates\\Resume_canva.pdf",
-      "size": 49656,
-      "name": "Resume_canva.pdf",
-      "hash": "5d3f10ab79d678312ff4bc82e095661ca722cd0770985884b70c33535e9fa241"
-    },
-    {
-      "path": "D:\\projects\\certificates\\Resume_OL.pdf",
-      "size": 120249,
-      "name": "Resume_OL.pdf",
-      "hash": "813e9bfcbfea21cbe881f3755fbf8dc5bcf2e044724cd018badf19f7e7ad5a4a"
-    },
-    {
-      "path": "D:\\projects\\certificates\\sap_merged_merged.pdf",
-      "size": 1503781,
-      "name": "sap_merged_merged.pdf",
-      "hash": "21b9fee90391eab1b8f67c594aae64c1a621d34d083d92ec61e230e0ec481319"
-    },
-    {
-      "path": "D:\\projects\\certificates\\Yuvadharshini M(23ITR181).pdf",
-      "size": 365509,
-      "name": "Yuvadharshini M(23ITR181).pdf",
-      "hash": "6d85ef057713d298fde86ff32f36386183f4b25ec509401ba3c8d5097c6809df"
-    },
-    {
-      "path": "D:\\projects\\certificates\\yuva_resume.pdf",
-      "size": 190863,
-      "name": "yuva_resume.pdf",
-      "hash": "7614995268cd7118bd7e1316eecdc391448e9051786b9c8c28d5b91d5711b9ab"
+      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 5.pdf",
+      "size": 2712363,
+      "name": "ML- Unit 5.pdf",
+      "hash": "9dd2ed6e9416216c15b680a18bf59ac5ed66f3843ef04f6172d26fdf32413c76"
     }
   ]
 }
