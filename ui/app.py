@@ -13,6 +13,7 @@ from threading import Thread
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from scanner import FileScanner
+from scanner.duplicate_finder import find_duplicates, calculate_wasted_space
 import config
 
 app = Flask(__name__)
@@ -22,6 +23,13 @@ scan_status = {
     "is_scanning": False,
     "progress_message": "",
     "files_found": 0
+}
+
+# Global variable to store duplicate results
+duplicate_results = {
+    "groups": [],
+    "total_duplicate_files": 0,
+    "wasted_space_bytes": 0
 }
 
 
@@ -147,7 +155,11 @@ def perform_scan(directory: str):
         # Save to JSON
         scan_status["progress_message"] = "Saving index..."
         save_index_to_json(files)
-        
+
+        # Find duplicates
+        scan_status["progress_message"] = "Detecting duplicates..."
+        detect_and_store_duplicates(files)
+
         # Update final status
         scan_status["progress_message"] = f"Scan complete! Found {len(files)} files."
         scan_status["files_found"] = len(files)
@@ -157,6 +169,55 @@ def perform_scan(directory: str):
     
     finally:
         scan_status["is_scanning"] = False
+
+
+def detect_and_store_duplicates(files_data: list):
+    """
+    Run duplicate detection on scanned files and store results globally.
+
+    Args:
+        files_data (list): List of file metadata dictionaries
+    """
+    global duplicate_results
+
+    groups = find_duplicates(files_data)
+    wasted = calculate_wasted_space(files_data)
+
+    # Build rich group info (file name + path for each file in group)
+    rich_groups = []
+    for group_paths in groups:
+        group_files = []
+        for path in group_paths:
+            group_files.append({
+                "name": os.path.basename(path),
+                "path": path
+            })
+        # Get size of one file from metadata
+        size = 0
+        for f in files_data:
+            if f.get("path") == group_paths[0]:
+                size = f.get("size", 0)
+                break
+        rich_groups.append({
+            "files": group_files,
+            "count": len(group_files),
+            "file_size": size,
+            "saveable_bytes": (len(group_files) - 1) * size
+        })
+
+    total_dup_files = sum(g["count"] for g in rich_groups)
+
+    duplicate_results = {
+        "groups": rich_groups,
+        "total_duplicate_files": total_dup_files,
+        "wasted_space_bytes": wasted
+    }
+
+
+@app.route('/api/duplicates', methods=['GET'])
+def get_duplicates():
+    """API endpoint to get duplicate file results."""
+    return jsonify(duplicate_results)
 
 
 def save_index_to_json(files_data: list):

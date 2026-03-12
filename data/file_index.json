@@ -1,41 +1,113 @@
 {
-  "total_files": 6,
+  "total_files": 18,
   "files": [
     {
-      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 1(2022 Regulations) - Copy.pdf",
-      "size": 1357899,
-      "name": "ML- Unit 1(2022 Regulations) - Copy.pdf",
-      "hash": "2207dbfa34639317e5d8a96d66078f453a908d08a71d95924a998363957d65f9"
+      "path": "D:\\sem4\\dbmsnotes\\DBMS Unit 1.pdf",
+      "size": 2656009,
+      "name": "DBMS Unit 1.pdf",
+      "hash": "4b3ebdee36e35736c911eac8b204a64f816faa9b603ec86d000d858afdaba64f"
     },
     {
-      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 1(2022 Regulations).pdf",
-      "size": 1357899,
-      "name": "ML- Unit 1(2022 Regulations).pdf",
-      "hash": "2207dbfa34639317e5d8a96d66078f453a908d08a71d95924a998363957d65f9"
+      "path": "D:\\sem4\\dbmsnotes\\DBMS Unit 2-SQL.pdf",
+      "size": 8864898,
+      "name": "DBMS Unit 2-SQL.pdf",
+      "hash": "0531e293b1b326e64810f48fdc0948061ab57d882f5790ae2a70fe4a77a8ed7c"
     },
     {
-      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 2.pdf",
-      "size": 3754344,
-      "name": "ML- Unit 2.pdf",
-      "hash": "0bff4b38aa10df10541a25be02c743fa88369bcdeead4d27d5f2aeeeca4998ac"
+      "path": "D:\\sem4\\dbmsnotes\\DBMS Unit 3.pdf",
+      "size": 21657608,
+      "name": "DBMS Unit 3.pdf",
+      "hash": "1af667c0c388b9c287968bf05ac4d234674e0bcefc9d784d18db36a1aeca2246"
     },
     {
-      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 3.pdf",
-      "size": 9176655,
-      "name": "ML- Unit 3.pdf",
-      "hash": "0b5f3db1df4198d05775ae150461086d764e0a55501a54b22a136b5f09c5f078"
+      "path": "D:\\sem4\\dbmsnotes\\dbms unit 4.pdf",
+      "size": 34596617,
+      "name": "dbms unit 4.pdf",
+      "hash": "8774040afb96bf6790f9bb8718bfcc444ae32c07067d6119ca950cecf69b1b91"
     },
     {
-      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 4 (2022 Regulations).pdf",
-      "size": 5404833,
-      "name": "ML- Unit 4 (2022 Regulations).pdf",
-      "hash": "9671fe36444d3247300b134b8031ff4012473c7af972ff8e75a6ceb2698ffe40"
+      "path": "D:\\sem4\\dbmsnotes\\DBMS-UNIT 1 & 2 uptoSQL.pdf",
+      "size": 33052176,
+      "name": "DBMS-UNIT 1 & 2 uptoSQL.pdf",
+      "hash": "6748a8cafdc017f5e47da1ea9ad82043510abd939c2e90026e4f4ce4c0c7720a"
     },
     {
-      "path": "D:\\sem5\\ML\\jp_mam_notes\\ML- Unit 5.pdf",
-      "size": 2712363,
-      "name": "ML- Unit 5.pdf",
-      "hash": "9dd2ed6e9416216c15b680a18bf59ac5ed66f3843ef04f6172d26fdf32413c76"
+      "path": "D:\\sem4\\dbmsnotes\\dbmsunit 5.pdf",
+      "size": 17343286,
+      "name": "dbmsunit 5.pdf",
+      "hash": "b79ae413e60a60fb794e70c1398cb1a12a78ea2da130a3b7dbf3f8181d74579b"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\er tutorial 3 QB.pdf",
+      "size": 160239,
+      "name": "er tutorial 3 QB.pdf",
+      "hash": "56556912c7ee6b4601efec9145026311a0dbcbc4c0e01326ef4dfc2294f89dc5"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\GATE – DBMS(RA & SQL).pdf",
+      "size": 873702,
+      "name": "GATE – DBMS(RA & SQL).pdf",
+      "hash": "034cef4e559ac9e04741cbe9835ba20b097e21a410c95f85ec4d80aa484e93a5"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\Minimal cover.pdf",
+      "size": 167121,
+      "name": "Minimal cover.pdf",
+      "hash": "7c9d06c71c8f33e727836350547ef7f57be18777ff415433df36ea303dc7de26"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\recovery problem.pdf",
+      "size": 249248,
+      "name": "recovery problem.pdf",
+      "hash": "ca343372c6e4d94440925e6a0e03e7225afaf8d22b32f6ba959f179ea9a73cd6"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\tutcops.pdf",
+      "size": 300444,
+      "name": "tutcops.pdf",
+      "hash": "27262c7c89e85f3a165be2635d716b3ca14a8f4e46470e631a06729194dbeb24"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\tutorial 2 QB.pdf",
+      "size": 300444,
+      "name": "tutorial 2 QB.pdf",
+      "hash": "27262c7c89e85f3a165be2635d716b3ca14a8f4e46470e631a06729194dbeb24"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\Tutorial1 QB.pdf",
+      "size": 295974,
+      "name": "Tutorial1 QB.pdf",
+      "hash": "140275f3e67c0c57d9bd983937a412ef400bca4f58aa5613ea8079c8a1aa537b"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\Tutorial4 QB.pdf",
+      "size": 208175,
+      "name": "Tutorial4 QB.pdf",
+      "hash": "58e08d783a090f99c031f815c53085a8b1526784bd915b403d31b35de5ae3e54"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\unit 5 problems.pdf",
+      "size": 468618,
+      "name": "unit 5 problems.pdf",
+      "hash": "e1564c3f0cca8e476249b167840294bdf222ba90985e7620407156e21acd95ea"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\unit2(ER).pdf",
+      "size": 2176983,
+      "name": "unit2(ER).pdf",
+      "hash": "d3a473b1bcf0f5f16369f6422d5b650dd971d142dec7797d12770087782278a1"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\unit5problems.pdf",
+      "size": 207531,
+      "name": "unit5problems.pdf",
+      "hash": "d4266309e59d1561d0e4a540db377fd705426e767a3091d21be828456b0e3a64"
+    },
+    {
+      "path": "D:\\sem4\\dbmsnotes\\Unnormalized to ER diagram-IIT.pdf",
+      "size": 158316,
+      "name": "Unnormalized to ER diagram-IIT.pdf",
+      "hash": "88686a2b57f2382f74f0fcf9b37090edafe74cc51850054b013dbcf15a846764"
     }
   ]
 }

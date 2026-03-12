@@ -1,284 +1,192 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartStorage - File Scanner</title>
+    <title>SmartStorage - Duplicate Finder</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
+        .container { max-width: 1100px; margin: 0 auto; }
+        .header { text-align: center; color: white; margin-bottom: 30px; }
+        .header h1 { font-size: 2.5em; margin-bottom: 8px; }
+        .header p  { font-size: 1.1em; opacity: 0.9; }
         .card {
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 20px;
         }
-
-        .scan-control {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
+        .scan-control { display: flex; gap: 10px; flex-wrap: wrap; }
         .scan-control input {
             flex: 1;
             min-width: 250px;
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 1em;
             transition: border-color 0.3s;
         }
-
-        .scan-control input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
+        .scan-control input:focus { outline: none; border-color: #667eea; }
         .btn {
             padding: 12px 30px;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 1em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
         }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
+        .btn-primary { background: #667eea; color: white; }
         .btn-primary:hover {
             background: #5568d3;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
         }
-
-        .btn-primary:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
+        .btn-primary:disabled { background: #ccc; cursor: not-allowed; transform: none; }
         .status-box {
             background: #f5f7fa;
             border-left: 4px solid #667eea;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            border-radius: 5px;
+            padding: 14px 20px;
+            margin-top: 20px;
+            border-radius: 6px;
             display: none;
         }
-
-        .status-box.active {
-            display: block;
-        }
-
-        .status-box.scanning {
-            border-left-color: #ffa500;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .status-box h3 {
-            color: #333;
-            margin-bottom: 5px;
-            font-size: 1.1em;
-        }
-
-        .status-box p {
-            color: #666;
-            font-size: 0.95em;
-        }
-
+        .status-box.active { display: block; }
+        .status-box.scanning { border-left-color: #ffa500; animation: pulse 1.5s ease-in-out infinite; }
+        .status-box.done    { border-left-color: #28a745; }
+        .status-box.error   { border-left-color: #dc3545; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+        .status-box h3 { color: #333; margin-bottom: 4px; font-size: 1em; }
+        .status-box p  { color: #555; font-size: 0.95em; }
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
-
         .stat-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             text-align: center;
         }
-
         .stat-card h4 {
-            font-size: 0.9em;
-            opacity: 0.9;
-            margin-bottom: 10px;
+            font-size: 0.8em;
+            opacity: 0.85;
+            margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
-        .stat-card p {
-            font-size: 2em;
-            font-weight: bold;
-        }
-
-        .files-table-container {
-            max-height: 500px;
-            overflow-y: auto;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
+        .stat-card p { font-size: 1.9em; font-weight: bold; }
+        .section-title { font-size: 1.2em; font-weight: 700; color: #333; margin-bottom: 16px; }
+        .no-duplicates { text-align: center; padding: 50px 20px; color: #28a745; }
+        .no-duplicates .icon { font-size: 3em; margin-bottom: 12px; }
+        .no-duplicates h3 { font-size: 1.3em; }
+        .dup-group { border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+        .dup-group-header {
             background: #f5f7fa;
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e0e0e0;
         }
-
-        th {
-            padding: 15px;
-            text-align: left;
+        .dup-group-header .group-title { font-weight: 600; color: #333; font-size: 0.95em; }
+        .badge {
+            background: #dc3545;
+            color: white;
+            border-radius: 12px;
+            padding: 2px 10px;
+            font-size: 0.8em;
             font-weight: 600;
-            color: #333;
-            border-bottom: 2px solid #e0e0e0;
         }
-
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #f0f0f0;
-            color: #666;
+        .badge.save { background: #17a2b8; }
+        .dup-file-list { padding: 10px 0; }
+        .dup-file-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            gap: 10px;
+            border-bottom: 1px solid #f5f5f5;
         }
-
-        tbody tr:hover {
-            background: #f9f9f9;
-        }
-
-        .file-path {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            word-break: break-all;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
-
-        .empty-state svg {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        .empty-state h3 {
-            font-size: 1.3em;
-            margin-bottom: 10px;
-        }
-
+        .dup-file-item:last-child { border-bottom: none; }
+        .file-icon { font-size: 1.1em; flex-shrink: 0; }
+        .file-details { flex: 1; min-width: 0; }
+        .file-name { font-weight: 600; color: #333; font-size: 0.95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .file-path { font-size: 0.82em; color: #777; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #aaa; }
+        .empty-state .icon { font-size: 3.5em; margin-bottom: 14px; }
+        .empty-state h3 { font-size: 1.2em; margin-bottom: 6px; }
+        .empty-state p  { font-size: 0.95em; }
         .spinner {
             display: inline-block;
-            width: 16px;
-            height: 16px;
+            width: 16px; height: 16px;
             border: 3px solid rgba(255,255,255,.3);
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
             margin-right: 8px;
+            vertical-align: middle;
         }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📁 SmartStorage</h1>
-            <p>File Scanner & Indexer</p>
+            <h1>&#128193; SmartStorage</h1>
+            <p>Scan a folder to find duplicate files and reclaim wasted space</p>
         </div>
 
         <div class="card">
-            <h2 style="margin-bottom: 20px; color: #333;">Scan Directory</h2>
-            
+            <h2 style="margin-bottom:20px;color:#333;">Scan Directory</h2>
             <div class="scan-control">
-                <input 
-                    type="text" 
-                    id="directoryInput" 
-                    placeholder="Enter directory path (e.g., C:\Users\YourName\Documents)"
-                    value="">
+                <input type="text" id="directoryInput"
+                    placeholder="Enter directory path (e.g., C:\Users\YourName\Documents)">
                 <button class="btn btn-primary" id="startScanBtn" onclick="startScan()">
                     Start Scan
                 </button>
             </div>
-
             <div class="status-box" id="statusBox">
                 <h3 id="statusTitle">Status</h3>
                 <p id="statusMessage">Ready to scan</p>
             </div>
-
-            <div class="stats" id="statsContainer" style="display: none;">
-                <div class="stat-card">
-                    <h4>Files Found</h4>
-                    <p id="filesCount">0</p>
-                </div>
-            </div>
         </div>
 
-        <div class="card">
-            <h2 style="margin-bottom: 20px; color: #333;">Scanned Files</h2>
-            
-            <div id="filesContent">
+        <div class="card" id="resultsCard" style="display:none;">
+            <h2 style="margin-bottom:20px;color:#333;">Duplicate File Report</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <h4>Files Scanned</h4>
+                    <p id="statTotalFiles">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Duplicate Groups</h4>
+                    <p id="statDupGroups">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Duplicate Files</h4>
+                    <p id="statDupFiles">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Space Saveable</h4>
+                    <p id="statWastedSpace">0 B</p>
+                </div>
+            </div>
+            <div class="section-title">Duplicate File Groups</div>
+            <div id="dupContent">
                 <div class="empty-state">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                    <h3>No files scanned yet</h3>
-                    <p>Start a scan to see the file list here</p>
+                    <div class="icon">&#128269;</div>
+                    <h3>No results yet</h3>
+                    <p>Start a scan to see duplicates here</p>
                 </div>
             </div>
         </div>
@@ -287,147 +195,118 @@
     <script>
         let scanInterval = null;
 
-        // Load files on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            loadFiles();
-        });
-
         async function startScan() {
             const directory = document.getElementById('directoryInput').value.trim();
-            
-            if (!directory) {
-                alert('Please enter a directory path');
-                return;
-            }
+            if (!directory) { alert('Please enter a directory path'); return; }
 
             const btn = document.getElementById('startScanBtn');
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner"></span>Scanning...';
+            document.getElementById('resultsCard').style.display = 'none';
 
             try {
                 const response = await fetch('/api/start-scan', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ directory: directory })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ directory })
                 });
-
                 const data = await response.json();
-
                 if (data.success) {
-                    showStatus('Scanning...', 'Scan started successfully', true);
-                    document.getElementById('statsContainer').style.display = 'grid';
-                    
-                    // Start polling for status
-                    scanInterval = setInterval(checkScanStatus, 500);
+                    showStatus('Scanning...', 'Scan started  please wait...', 'scanning');
+                    scanInterval = setInterval(checkScanStatus, 600);
                 } else {
-                    alert(data.message);
-                    btn.disabled = false;
-                    btn.innerHTML = 'Start Scan';
+                    showStatus('Error', data.message, 'error');
+                    resetBtn();
                 }
-            } catch (error) {
-                alert('Error starting scan: ' + error.message);
-                btn.disabled = false;
-                btn.innerHTML = 'Start Scan';
+            } catch (err) {
+                showStatus('Error', 'Could not start scan: ' + err.message, 'error');
+                resetBtn();
             }
         }
 
         async function checkScanStatus() {
             try {
-                const response = await fetch('/api/scan-status');
-                const status = await response.json();
-
-                document.getElementById('filesCount').textContent = status.files_found;
-                showStatus('Scanning...', status.progress_message, status.is_scanning);
-
+                const resp = await fetch('/api/scan-status');
+                const status = await resp.json();
+                showStatus('Scanning...', status.progress_message, 'scanning');
                 if (!status.is_scanning) {
-                    // Scan completed
                     clearInterval(scanInterval);
                     scanInterval = null;
-                    
-                    const btn = document.getElementById('startScanBtn');
-                    btn.disabled = false;
-                    btn.innerHTML = 'Start Scan';
-
-                    // Reload files
-                    loadFiles();
+                    resetBtn();
+                    showStatus('Done', status.progress_message, 'done');
+                    loadDuplicates(status.files_found);
                 }
-            } catch (error) {
-                console.error('Error checking scan status:', error);
+            } catch (err) {
+                console.error('Status check error:', err);
             }
         }
 
-        function showStatus(title, message, isScanning) {
-            const statusBox = document.getElementById('statusBox');
-            statusBox.classList.add('active');
-            
-            if (isScanning) {
-                statusBox.classList.add('scanning');
-            } else {
-                statusBox.classList.remove('scanning');
+        async function loadDuplicates(totalFilesScanned) {
+            try {
+                const resp = await fetch('/api/duplicates');
+                const data = await resp.json();
+                document.getElementById('resultsCard').style.display = 'block';
+                document.getElementById('statTotalFiles').textContent = totalFilesScanned || 0;
+                document.getElementById('statDupGroups').textContent = data.groups.length;
+                document.getElementById('statDupFiles').textContent = data.total_duplicate_files;
+                document.getElementById('statWastedSpace').textContent = formatSize(data.wasted_space_bytes);
+                renderGroups(data.groups);
+            } catch (err) {
+                console.error('Error loading duplicates:', err);
             }
-            
+        }
+
+        function renderGroups(groups) {
+            const container = document.getElementById('dupContent');
+            if (!groups || groups.length === 0) {
+                container.innerHTML = '<div class="no-duplicates"><div class="icon">&#9989;</div><h3>No duplicate files found! Your folder is clean.</h3></div>';
+                return;
+            }
+            let html = '';
+            groups.forEach((group, idx) => {
+                const saveable = formatSize(group.saveable_bytes);
+                html += '<div class="dup-group"><div class="dup-group-header">';
+                html += '<span class="group-title">Group ' + (idx+1) + ' &mdash; ' + group.count + ' identical files</span>';
+                html += '<span class="badge save">Save ' + saveable + '</span>';
+                html += '</div><div class="dup-file-list">';
+                group.files.forEach(function(file, fi) {
+                    const icon = fi === 0 ? '&#128196;' : '&#9851;';
+                    html += '<div class="dup-file-item"><span class="file-icon">' + icon + '</span>';
+                    html += '<div class="file-details">';
+                    html += '<div class="file-name">' + escapeHtml(file.name) + '</div>';
+                    html += '<div class="file-path">' + escapeHtml(file.path) + '</div>';
+                    html += '</div></div>';
+                });
+                html += '</div></div>';
+            });
+            container.innerHTML = html;
+        }
+
+        function showStatus(title, message, type) {
+            const box = document.getElementById('statusBox');
+            box.className = 'status-box active ' + type;
             document.getElementById('statusTitle').textContent = title;
             document.getElementById('statusMessage').textContent = message;
         }
 
-        async function loadFiles() {
-            try {
-                const response = await fetch('/api/files');
-                const data = await response.json();
-
-                if (data.success && data.files.length > 0) {
-                    displayFiles(data.files, data.total_files);
-                }
-            } catch (error) {
-                console.error('Error loading files:', error);
-            }
-        }
-
-        function displayFiles(files, totalFiles) {
-            const container = document.getElementById('filesContent');
-            
-            let html = '<div class="files-table-container"><table>';
-            html += '<thead><tr>';
-            html += '<th style="width: 40px;">#</th>';
-            html += '<th>File Name</th>';
-            html += '<th>File Path</th>';
-            html += '<th style="width: 120px;">Size</th>';
-            html += '</tr></thead>';
-            html += '<tbody>';
-
-            files.forEach((file, index) => {
-                html += '<tr>';
-                html += `<td>${index + 1}</td>`;
-                html += `<td><strong>${escapeHtml(file.name)}</strong></td>`;
-                html += `<td class="file-path">${escapeHtml(file.path)}</td>`;
-                html += `<td>${formatSize(file.size)}</td>`;
-                html += '</tr>';
-            });
-
-            html += '</tbody></table></div>';
-            
-            container.innerHTML = html;
+        function resetBtn() {
+            const btn = document.getElementById('startScanBtn');
+            btn.disabled = false;
+            btn.innerHTML = 'Start Scan';
         }
 
         function formatSize(bytes) {
+            if (!bytes) return '0 B';
             const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-            let size = bytes;
-            let unitIndex = 0;
-            
-            while (size >= 1024 && unitIndex < units.length - 1) {
-                size /= 1024;
-                unitIndex++;
-            }
-            
-            return `${size.toFixed(2)} ${units[unitIndex]}`;
+            let size = bytes, i = 0;
+            while (size >= 1024 && i < units.length - 1) { size /= 1024; i++; }
+            return size.toFixed(2) + ' ' + units[i];
         }
 
         function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+            const d = document.createElement('div');
+            d.textContent = text;
+            return d.innerHTML;
         }
     </script>
 </body>
